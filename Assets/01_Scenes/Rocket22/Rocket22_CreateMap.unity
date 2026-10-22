@@ -575,7 +575,7 @@ PrefabInstance:
       objectReference: {fileID: 1873345252}
     - target: {fileID: 3789351707633414718, guid: 207554a7090229b49b45a1f11c91d7e3, type: 3}
       propertyPath: m_VersionIndex
-      value: 4598
+      value: 4601
       objectReference: {fileID: 0}
     - target: {fileID: 3949767779481138635, guid: 207554a7090229b49b45a1f11c91d7e3, type: 3}
       propertyPath: m_Mesh
