@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ground1
+  m_Shader: {fileID: 4800000, guid: 6dbb66163cf59a946ab05439509e5a36, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SideNormal:
+        m_Texture: {fileID: 2800000, guid: 82d92db8384e8424a83eacfd062c6a11, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SideTex:
+        m_Texture: {fileID: 2800000, guid: 93249d82759d81349bdc16ca826e45b0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopNormal:
+        m_Texture: {fileID: 2800000, guid: 7a6d4c9105cae474db14c248d8312ec9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTex:
+        m_Texture: {fileID: 2800000, guid: 79e9e9ae3554b334f8eba9c7ec68efac, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Brightness: 1
+    - _LipFreq: 2
+    - _LipHeight: 0.3
+    - _LipWave: 0.12
+    - _NormalStrength: 1
+    - _RimStrength: 0.35
+    - _SideScale: 0.25
+    - _SurfaceY: 0
+    - _ToonSoftness: 0.45
+    - _TopGloss: 0.25
+    - _TopScale: 0.25
+    m_Colors:
+    - _GroundAmbient: {r: 0.9, g: 0.88, b: 1, a: 1}
+    - _LightDir: {r: 0.36868775, g: 0.7660444, b: -0.5265408, a: 0}
+    - _LipColor: {r: 0.47843137, g: 0.80784315, b: 0.34509805, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.66, g: 0.64, b: 0.9, a: 1}
+    - _SideTint: {r: 1, g: 1, b: 1, a: 1}
+    - _SkyAmbient: {r: 1, g: 1, b: 1.05, a: 1}
+    - _TopTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
