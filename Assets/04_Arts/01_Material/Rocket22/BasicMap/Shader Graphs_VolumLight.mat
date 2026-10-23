@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_VolumLight
-  m_Shader: {fileID: -6465566751694194690, guid: b86596a6f1448b8468a170a4f8d2e038, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 607d4c71d6026c542ac6eac14303f3a4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
