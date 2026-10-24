@@ -17857,7 +17857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8184743512361505420}
   m_Layer: 0
-  m_Name: JumpMap
+  m_Name: Jump_Map_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

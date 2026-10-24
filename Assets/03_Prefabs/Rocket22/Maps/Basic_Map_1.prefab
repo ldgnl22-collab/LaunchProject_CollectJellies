@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8602623706044947805}
   m_Layer: 0
-  m_Name: BasicMap
+  m_Name: Basic_Map_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
