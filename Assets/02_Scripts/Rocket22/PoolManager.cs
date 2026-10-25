@@ -1,5 +1,13 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+
+[Serializable]
+public class PoolData
+{
+    public GameObject Prefab;
+    public int Size;
+}
 
 public class PoolManager : MonoBehaviour
 {
