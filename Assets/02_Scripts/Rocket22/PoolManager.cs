@@ -31,7 +31,7 @@ public class PoolManager : MonoBehaviour
         InitPool();
     }
 
-    private void InitPool()
+    public void InitPool()
     {
         for (int i = 0; i < _poolDataList.Count; i++)
         {
@@ -45,7 +45,7 @@ public class PoolManager : MonoBehaviour
             {
                 GameObject go = Instantiate(data.Prefab);
                 go.transform.SetParent(obj.transform);
-                go.SetActive(false);
+                go.gameObject.SetActive(false);
                 prefabs.Enqueue(go);
             }
             
@@ -58,12 +58,7 @@ public class PoolManager : MonoBehaviour
         if (_dicPools[poolType].Count > 0)
         {
             GameObject go = _dicPools[poolType].Dequeue();
-            go.SetActive(true);
-
-            if (go.TryGetComponent(out IPoolable poolable))
-            {
-                poolable.OnTakePool();
-            }
+            go.gameObject.SetActive(true);
 
             return go;
         }
@@ -78,7 +73,7 @@ public class PoolManager : MonoBehaviour
             poolable.ReturnToPool();
         }
         
-        obj.SetActive(false);
+        obj.gameObject.SetActive(false);
         _dicPools[poolType].Enqueue(obj);
     }
 

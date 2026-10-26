@@ -3,6 +3,7 @@ using UnityEngine;
 public class BulletTest : MonoBehaviour
 {
     private float _elapsed;
+    
     private void Update()
     {
         transform.Translate(Vector3.forward * 5 * Time.deltaTime);

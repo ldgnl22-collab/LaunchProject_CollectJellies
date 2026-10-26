@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class BombTest : MonoBehaviour, IPoolable
+public class BombTest : MonoBehaviour
 {
     private float _elapsed;
     private Vector3 startPos;
+
+    private void Start()
+    {
+    }
     private void Update()
     {
         transform.Translate(Vector3.forward * 4 * Time.deltaTime);
