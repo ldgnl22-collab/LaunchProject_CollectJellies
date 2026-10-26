@@ -1,96 +1,50 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+public class ObjectPool<T> where T : MonoBehaviour, IPoolable
 {
-    [Serializable]
-    public class PoolData
+    private Queue<T> _pool = new Queue<T>();
+    private T _prefab;
+    private Transform _parent;
+
+    public ObjectPool(T prefab, int initSize, Transform parent)
     {
-        public PoolType Key;
-        public T Prefab;
-        public int Size;
-    }
-    
-    private static ObjectPool<T> _instance;
-
-    public static ObjectPool<T> Instance { get { return _instance; } }
-
-    private Dictionary<PoolType, Queue<T>> _dicPools
-        = new Dictionary<PoolType, Queue<T>>();
-    
-    [SerializeField] private List<PoolData> _poolDataList;
-
-    private void Awake()
-    {
-        SetSingleton();
-    }
-
-    private void Start()
-    {
-        // InitPool();
-    }
-
-    public void InitPool(T prefab)
-    {
-        for (int i = 0; i < _poolDataList.Count; i++)
+        this._prefab = prefab;
+        this._parent = parent;
+        
+        GameObject root = new GameObject($"{_prefab.name}");
+        root.transform.SetParent(_parent);
+        
+        for (int i = 0; i < initSize; i++)
         {
-            PoolData data = _poolDataList[i];
-            Queue<T> prefabs = new Queue<T>();
-
-            GameObject obj = new GameObject($"{data.Key}");
-            obj.transform.SetParent(transform);
-            
-            for (int j = 0; j < data.Size; j++)
-            {
-                T go = Instantiate(prefab);
-                go.transform.SetParent(obj.transform);
-                go.gameObject.SetActive(false);
-                prefabs.Enqueue(go);
-            }
-            
-            _dicPools.Add(data.Key, prefabs);
+            T obj = Object.Instantiate(_prefab, root.transform);
+            obj.gameObject.SetActive(false);
+            _pool.Enqueue(obj);
         }
     }
 
-    public T Take(PoolType poolType)
+    public T Take()
     {
-        if (_dicPools[poolType].Count > 0)
+        if (_pool.Count > 0)
         {
-            T go = _dicPools[poolType].Dequeue();
-            go.gameObject.SetActive(true);
+            T obj = _pool.Dequeue();
+            obj.gameObject.SetActive(true);
 
-            if (go.TryGetComponent(out IPoolable poolable))
-            {
-                poolable.OnTakePool();
-            }
+            obj.OnTakePool();
 
-            return go;
+            return obj;
         }
 
         return null;
     }
 
-    public void Return(PoolType poolType, T obj)
+    public void Return(T obj)
     {
-        if (obj.TryGetComponent(out IPoolable poolable))
-        {
-            poolable.ReturnToPool();
-        }
-        
-        obj.gameObject.SetActive(false);
-        _dicPools[poolType].Enqueue(obj);
-    }
+        obj.ReturnToPool();
 
-    private void SetSingleton()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            _instance = this;
-        }
+        obj.gameObject.SetActive(false);
+        _pool.Enqueue(obj);
     }
 }

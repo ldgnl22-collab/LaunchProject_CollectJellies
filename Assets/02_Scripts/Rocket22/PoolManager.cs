@@ -4,23 +4,12 @@ using System.Collections.Generic;
 
 public class PoolManager : MonoBehaviour
 {
-    [Serializable]
-    public class PoolData
-    {
-        public PoolType Key;
-        public GameObject Prefab;
-        public int Size;
-    }
+    public static PoolManager Instance { get ; private set; }
     
-    private static PoolManager _instance;
-
-    public static PoolManager Instance { get { return _instance; } }
-
-    private Dictionary<PoolType, Queue<GameObject>> _dicPools
-        = new Dictionary<PoolType, Queue<GameObject>>();
+    // [SerializeField] private Bullet _bulletPrefab;
     
-    [SerializeField] private List<PoolData> _poolDataList;
-
+    // public ObjectPool<Bullet> _bulletPool;
+    
     private void Awake()
     {
         SetSingleton();
@@ -28,64 +17,23 @@ public class PoolManager : MonoBehaviour
 
     private void Start()
     {
-        InitPool();
+        InitPoolCreate();
     }
 
-    public void InitPool()
+    private void InitPoolCreate()
     {
-        for (int i = 0; i < _poolDataList.Count; i++)
-        {
-            PoolData data = _poolDataList[i];
-            Queue<GameObject> prefabs = new Queue<GameObject>();
-
-            GameObject obj = new GameObject($"{data.Key}");
-            obj.transform.SetParent(transform);
-            
-            for (int j = 0; j < data.Size; j++)
-            {
-                GameObject go = Instantiate(data.Prefab);
-                go.transform.SetParent(obj.transform);
-                go.gameObject.SetActive(false);
-                prefabs.Enqueue(go);
-            }
-            
-            _dicPools.Add(data.Key, prefabs);
-        }
-    }
-
-    public GameObject Take(PoolType poolType)
-    {
-        if (_dicPools[poolType].Count > 0)
-        {
-            GameObject go = _dicPools[poolType].Dequeue();
-            go.gameObject.SetActive(true);
-
-            return go;
-        }
-
-        return null;
-    }
-
-    public void Return(PoolType poolType, GameObject obj)
-    {
-        if (obj.TryGetComponent(out IPoolable poolable))
-        {
-            poolable.ReturnToPool();
-        }
-        
-        obj.gameObject.SetActive(false);
-        _dicPools[poolType].Enqueue(obj);
+        // _bulletPool = new ObjectPool<Bullet>(_bulletPrefab, 10, transform);
     }
 
     private void SetSingleton()
     {
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            _instance = this;
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
