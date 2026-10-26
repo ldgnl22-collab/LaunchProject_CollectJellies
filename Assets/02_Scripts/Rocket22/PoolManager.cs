@@ -6,9 +6,9 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance { get ; private set; }
     
-    // [SerializeField] private Bullet _bulletPrefab;
+    // 직렬화 된 private 프리팹 변수
     
-    // public ObjectPool<Bullet> _bulletPool;
+    // public ObjectPool<객체> _객체명;
     
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class PoolManager : MonoBehaviour
 
     private void InitPoolCreate()
     {
-        // _bulletPool = new ObjectPool<Bullet>(_bulletPrefab, 10, transform);
+        // 풀 변수 = new ObjectPool<객체>(프리팹 변수, 풀 개수, 부모오브젝트 위치);
     }
 
     private void SetSingleton()

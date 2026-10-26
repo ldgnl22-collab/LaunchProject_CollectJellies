@@ -25,7 +25,7 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolable
         }
     }
 
-    public T Take()
+    public T TakePool()
     {
         if (_pool.Count > 0)
         {
@@ -40,9 +40,9 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolable
         return null;
     }
 
-    public void Return(T obj)
+    public void ReturnPool(T obj)
     {
-        obj.ReturnToPool();
+        obj.OnReturnPool();
 
         obj.gameObject.SetActive(false);
         _pool.Enqueue(obj);

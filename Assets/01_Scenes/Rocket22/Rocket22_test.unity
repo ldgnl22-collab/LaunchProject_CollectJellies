@@ -163,8 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6afdca898cb295d4286e2276d751a2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
-  _bulletPrefab: {fileID: 1602226392538107896, guid: 45e900c26487de146b18619e89090dd7, type: 3}
-  _bombPrefab: {fileID: -1422027123821817976, guid: 1b5d917a2b31b3b4980026b16b0dedb8, type: 3}
 --- !u!1 &882486727
 GameObject:
   m_ObjectHideFlags: 0
