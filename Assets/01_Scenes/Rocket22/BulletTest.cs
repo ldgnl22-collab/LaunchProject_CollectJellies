@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletTest : MonoBehaviour
 {
     private float _elapsed;
     private void Update()
@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
 
         if (_elapsed >= 3)
         {
-            PoolManager.Instance.Return(gameObject);
+            PoolManager.Instance.Return(PoolType.BulletPool, gameObject);
         }
     }
 }

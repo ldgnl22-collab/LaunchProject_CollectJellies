@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 587934509789397327}
   - component: {fileID: 4572014118744191344}
   - component: {fileID: 4732458074554931784}
-  - component: {fileID: -6664556022556475732}
+  - component: {fileID: -1422027123821817976}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2709379555197561466
 Transform:
   m_ObjectHideFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6362937709562274908}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.39449, y: -0, z: 0.48866}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,7 +113,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6664556022556475732
+--- !u!114 &-1422027123821817976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,6 +122,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6362937709562274908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acfa7cf9fd6548c41af47ca0f42df864, type: 3}
+  m_Script: {fileID: 11500000, guid: 946a1b43b72d09646a2bd541172123c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
