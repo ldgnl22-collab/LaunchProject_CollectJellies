@@ -1,25 +1,44 @@
-using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    [SerializeField] private List<TextAsset> _csvFileList;
+    public static DataManager Instance;
 
-    private Dictionary<int, string[]> _splitCsv;
+    private MissionTable _missionTable;
+    private SkinTable _skinTable;
+    private StageTable _stageTable;
 
-    private void Start() => CheckFirst();
-    
-    private void CheckFirst()
+    public MissionTable GetMissionData()
     {
-        for (int i = 0; i < _csvFileList.Count; i++)
-        {
-            string[] lines = _csvFileList[i].text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string[] cells = lines[2].Split(',');
-            string name = cells[1];
+        return _missionTable;
+    }
+    
+    public SkinTable GetSkinData()
+    {
+        return _skinTable;
+    }
+    
+    public StageTable GetStageData()
+    {
+        return _stageTable;
+    }
 
-            Debug.Log($"Table: 줄 {lines.Length}개");
-            Debug.Log($"Table: 이름 {name.Length}글자");
+    private void Awake()
+    {
+        SetSingleton();
+    }
+    
+    private void SetSingleton()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

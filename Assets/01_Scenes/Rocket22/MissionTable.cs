@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class MissionTable : MonoBehaviour
+{
+    private const int MISSION_DATA_COUNT = 4;
+    [SerializeField] private TextAsset _csvFile;
+    
+    private List<MissionData> _datas = new List<MissionData>();
+    private Dictionary<int, MissionData> _dicDataById = new Dictionary<int, MissionData>();
+
+    private void Awake()
+    {
+        LoadTable();
+    }
+
+    public bool TryGetData(int id, out MissionData data)
+    {
+        return _dicDataById.TryGetValue(id, out data);
+    }
+
+    public void LoadTable()
+    {
+        string[] lines = _csvFile.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        for (int i = 2; i < lines.Length; i++)
+        {
+            ParseLine(i, lines[i]);
+        }
+    }
+
+    private void ParseLine(int index, string line)
+    {
+        string[] cells = line.Split(',');
+
+        if (cells.Length != MISSION_DATA_COUNT)
+        {
+            Debug.Log($"DataManager: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
+            return;
+        }
+        
+        TrimCells(cells);
+        
+        if (int.TryParse(cells[0], out int id)
+            && int.TryParse(cells[2], out int targetValue)
+            && int.TryParse(cells[3], out int reward))
+        {
+            MissionData data = new MissionData(id, cells[1], targetValue, reward);
+            AddData(data);
+        }
+    }
+
+    private void TrimCells(string[] cells)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i] = cells[i].Trim();
+        }
+    }
+    
+    private void AddData(MissionData data)
+    {
+        if (_dicDataById.ContainsKey(data.Id))
+        {
+            Debug.Log($"EnemyTable: Id {data.Id}이 이미 있어 {data.Detail} 줄을 건너뜁니다.");
+            return;
+        }
+
+        _datas.Add(data);
+        _dicDataById.Add(data.Id, data);
+    }
+}
