@@ -1,3 +1,11 @@
+public enum SceneType
+{
+    None = -1,
+    Title = 0,
+    Lobby = 1,
+    Game = 2
+}
+
 public enum BGMType
 {
     None = -1,
