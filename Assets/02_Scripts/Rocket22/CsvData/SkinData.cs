@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SkinData : MonoBehaviour, IDataTable
+public class SkinData : IDataTable
 {
     [field: SerializeField] public TextAsset CsvFile { get; private set; }
 
@@ -17,23 +17,21 @@ public class SkinData : MonoBehaviour, IDataTable
     
     public int Id => _id;
     public string Name => _name;
-
+    
+    public SkinData(){}
+    
     public SkinData(int id, string name)
     {
         ID = _id = id;
         _name = name;
     }
     
-    public bool SetData(string[] cells)
+    public void SetData(string[] cells)
     {
+        SkinData data;
         if (int.TryParse(cells[0], out int id))
         {
-            SkinData data = new SkinData(id, cells[1]);
-            return true;
-        }
-        else
-        {
-            return false;
+            data = new SkinData(id, cells[1]);
         }
     }
 }

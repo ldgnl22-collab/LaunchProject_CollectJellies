@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
-public class MissionData : MonoBehaviour, IDataTable
+public class MissionData : IDataTable
 {
     [field: SerializeField] public TextAsset CsvFile { get; private set; }
 
@@ -23,6 +23,8 @@ public class MissionData : MonoBehaviour, IDataTable
     public int TargetValue => _targetValue;
     public int Reward => _reward;
     
+    public MissionData(){}
+    
     public MissionData(int id, string detail, int targetValue, int reward)
     {
         ID = _id = id;
@@ -31,7 +33,7 @@ public class MissionData : MonoBehaviour, IDataTable
         _reward = reward;
     }
 
-    public bool SetData(string[] cells)
+    public void SetData(string[] cells)
     {
         if (int.TryParse(cells[0], out int id)
             && int.TryParse(cells[2], out int targetValue)
@@ -39,11 +41,6 @@ public class MissionData : MonoBehaviour, IDataTable
         {
             string result = string.Format(cells[1], targetValue);
             MissionData data = new MissionData(id, result, targetValue, reward);
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 }

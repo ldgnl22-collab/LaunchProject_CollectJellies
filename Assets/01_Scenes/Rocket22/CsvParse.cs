@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CsvParse<T> where T : MonoBehaviour, IDataTable
+public class CsvParse<T> where T : IDataTable, new()
 {
     private T _csvData;
+    private TextAsset _csvTable;
     
     private Dictionary<int, T> _dicDataById = new Dictionary<int, T>();
 
     private void Awake()
     {
+        LoadTable();
     }
 
     public bool TryGetData(int id, out T data)
@@ -17,9 +19,15 @@ public class CsvParse<T> where T : MonoBehaviour, IDataTable
         return _dicDataById.TryGetValue(id, out data);
     }
 
-    public void LoadTable(T data)
+    public void SetDataTable(T data, TextAsset table)
     {
-        string[] lines = data.CsvFile.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        _csvData = data;
+        _csvTable = table;
+    }
+
+    public void LoadTable()
+    {
+        string[] lines = _csvTable.text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         for (int i = 2; i < lines.Length; i++)
         {
@@ -38,11 +46,9 @@ public class CsvParse<T> where T : MonoBehaviour, IDataTable
         }
         
         TrimCells(cells);
-        
-        if (_csvData.SetData(cells))
-        {
-            AddData(_csvData);
-        }
+
+        _csvData.SetData(cells);
+        AddData(_csvData);
     }
 
     private void TrimCells(string[] cells)
