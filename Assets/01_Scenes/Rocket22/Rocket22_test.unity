@@ -290,6 +290,50 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1235037752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235037754}
+  - component: {fileID: 1235037753}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1235037753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235037752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1b06cbd7aa40c4499b6f5165f006f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::test
+--- !u!4 &1235037754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235037752}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1329576712
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,10 +527,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1548776614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ef72e07c78382d45b5b86ba1669138a, type: 3}
+  m_Script: {fileID: 11500000, guid: 63f9a50d478813b4da221355ca3838b4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StageTable
-  _csvFile: {fileID: 4900000, guid: 23f199fb84f2aad408448202250397ce, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::StageData
+  <CsvFile>k__BackingField: {fileID: 4900000, guid: 23f199fb84f2aad408448202250397ce, type: 3}
 --- !u!114 &1548776619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,10 +540,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1548776614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f44c50a0c7548c54691e78932443dfed, type: 3}
+  m_Script: {fileID: 11500000, guid: a49644a220469c34883e68e3499b74fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkinTable
-  _csvFile: {fileID: 4900000, guid: e1a75849f26f84942b97fe0f7d67208c, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::SkinData
+  <CsvFile>k__BackingField: {fileID: 4900000, guid: e1a75849f26f84942b97fe0f7d67208c, type: 3}
 --- !u!114 &1548776620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,10 +553,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1548776614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04e4130448b64f04bb0eccbe8033ea69, type: 3}
+  m_Script: {fileID: 11500000, guid: a4a859d9774c5a840b0ebfef23e895df, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MissionTable
-  _csvFile: {fileID: 4900000, guid: c5fa6d499c5131747b505cd9bd84add2, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::MissionData
+  <CsvFile>k__BackingField: {fileID: 4900000, guid: c5fa6d499c5131747b505cd9bd84add2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -521,3 +565,4 @@ SceneRoots:
   - {fileID: 984002889}
   - {fileID: 229051386}
   - {fileID: 1548776616}
+  - {fileID: 1235037754}

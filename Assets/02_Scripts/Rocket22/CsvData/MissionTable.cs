@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class MissionTable : MonoBehaviour
 {
-    private const int MISSION_DATA_COUNT = 4;
     [SerializeField] private TextAsset _csvFile;
     
     private Dictionary<int, MissionData> _dicDataById = new Dictionary<int, MissionData>();
@@ -34,7 +33,7 @@ public class MissionTable : MonoBehaviour
     {
         string[] cells = line.Split(',');
 
-        if (cells.Length != MISSION_DATA_COUNT)
+        if (cells.Length != 0)
         {
             Debug.Log($"MissionData: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
             return;

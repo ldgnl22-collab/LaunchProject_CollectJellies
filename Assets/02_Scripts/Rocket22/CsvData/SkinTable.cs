@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SkinTable : MonoBehaviour
 {
-    private const int SKIN_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
     private Dictionary<int, SkinData> _dicDataById = new Dictionary<int, SkinData>();
@@ -33,7 +32,7 @@ public class SkinTable : MonoBehaviour
     {
         string[] cells = line.Split(',');
 
-        if (cells.Length != SKIN_DATA_COUNT)
+        if (cells.Length != 0)
         {
             Debug.Log($"SkinData: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
             return;

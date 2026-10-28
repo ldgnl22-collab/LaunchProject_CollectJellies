@@ -6,25 +6,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
 
-    private MissionTable _missionTable;
-    private SkinTable _skinTable;
-    private StageTable _stageTable;
-
-    public MissionTable GetMissionData()
-    {
-        return _missionTable;
-    }
+    [SerializeField] private TextAsset 
     
-    public SkinTable GetSkinData()
-    {
-        return _skinTable;
-    }
-    
-    public StageTable GetStageData()
-    {
-        return _stageTable;
-    }
-
     private void Awake()
     {
         SetSingleton();
@@ -33,9 +16,6 @@ public class DataManager : MonoBehaviour
 
     private void Init()
     {
-        _missionTable = GetComponent<MissionTable>();
-        _skinTable = GetComponent<SkinTable>();
-        _stageTable = GetComponent<StageTable>();
     }
     
     private void SetSingleton()

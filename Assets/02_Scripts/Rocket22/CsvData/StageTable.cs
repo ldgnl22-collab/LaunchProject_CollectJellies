@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StageTable : MonoBehaviour
 {
-    private const int STAGE_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
     private Dictionary<int, StageData> _dicDataById = new Dictionary<int, StageData>();
@@ -33,7 +32,7 @@ public class StageTable : MonoBehaviour
     {
         string[] cells = line.Split(',');
 
-        if (cells.Length != STAGE_DATA_COUNT)
+        if (cells.Length != 0)
         {
             Debug.Log($"StageData: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
             return;
