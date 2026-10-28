@@ -8,7 +8,6 @@ public class MissionTable : MonoBehaviour
     private const int MISSION_DATA_COUNT = 4;
     [SerializeField] private TextAsset _csvFile;
     
-    private List<MissionData> _dataList = new List<MissionData>();
     private Dictionary<int, MissionData> _dicDataById = new Dictionary<int, MissionData>();
 
     private void Awake()
@@ -70,7 +69,6 @@ public class MissionTable : MonoBehaviour
             return;
         }
 
-        _dataList.Add(data);
         _dicDataById.Add(data.Id, data);
     }
 }

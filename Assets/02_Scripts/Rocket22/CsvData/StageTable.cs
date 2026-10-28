@@ -7,7 +7,6 @@ public class StageTable : MonoBehaviour
     private const int STAGE_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
-    private List<StageData> _dataList = new List<StageData>();
     private Dictionary<int, StageData> _dicDataById = new Dictionary<int, StageData>();
 
     private void Awake()
@@ -65,7 +64,6 @@ public class StageTable : MonoBehaviour
             return;
         }
 
-        _dataList.Add(data);
         _dicDataById.Add(data.Id, data);
     }
 }

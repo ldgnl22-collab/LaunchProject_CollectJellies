@@ -7,7 +7,6 @@ public class SkinTable : MonoBehaviour
     private const int SKIN_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
-    private List<SkinData> _dataList = new List<SkinData>();
     private Dictionary<int, SkinData> _dicDataById = new Dictionary<int, SkinData>();
 
     private void Awake()
@@ -65,7 +64,6 @@ public class SkinTable : MonoBehaviour
             return;
         }
 
-        _dataList.Add(data);
         _dicDataById.Add(data.Id, data);
     }
 }
