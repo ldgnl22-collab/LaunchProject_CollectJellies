@@ -1,22 +1,21 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class MissionTable : MonoBehaviour
+public class StageTable : MonoBehaviour
 {
-    private const int MISSION_DATA_COUNT = 4;
+    private const int STAGE_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
-    private List<MissionData> _datas = new List<MissionData>();
-    private Dictionary<int, MissionData> _dicDataById = new Dictionary<int, MissionData>();
+    private List<StageData> _dataList = new List<StageData>();
+    private Dictionary<int, StageData> _dicDataById = new Dictionary<int, StageData>();
 
     private void Awake()
     {
         LoadTable();
     }
 
-    public bool TryGetData(int id, out MissionData data)
+    public bool TryGetData(int id, out StageData data)
     {
         return _dicDataById.TryGetValue(id, out data);
     }
@@ -35,19 +34,17 @@ public class MissionTable : MonoBehaviour
     {
         string[] cells = line.Split(',');
 
-        if (cells.Length != MISSION_DATA_COUNT)
+        if (cells.Length != STAGE_DATA_COUNT)
         {
-            Debug.Log($"DataManager: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
+            Debug.Log($"StageData: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
             return;
         }
         
         TrimCells(cells);
         
-        if (int.TryParse(cells[0], out int id)
-            && int.TryParse(cells[2], out int targetValue)
-            && int.TryParse(cells[3], out int reward))
+        if (int.TryParse(cells[0], out int id))
         {
-            MissionData data = new MissionData(id, cells[1], targetValue, reward);
+            StageData data = new StageData(id, cells[1]);
             AddData(data);
         }
     }
@@ -60,15 +57,15 @@ public class MissionTable : MonoBehaviour
         }
     }
     
-    private void AddData(MissionData data)
+    private void AddData(StageData data)
     {
         if (_dicDataById.ContainsKey(data.Id))
         {
-            Debug.Log($"EnemyTable: Id {data.Id}이 이미 있어 {data.Detail} 줄을 건너뜁니다.");
+            Debug.Log($"StageData: Id {data.Id}이 이미 있어 {data.Name} 줄을 건너뜁니다.");
             return;
         }
 
-        _datas.Add(data);
+        _dataList.Add(data);
         _dicDataById.Add(data.Id, data);
     }
 }

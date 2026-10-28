@@ -7,7 +7,7 @@ public class SkinTable : MonoBehaviour
     private const int SKIN_DATA_COUNT = 2;
     [SerializeField] private TextAsset _csvFile;
     
-    private List<SkinData> _datas = new List<SkinData>();
+    private List<SkinData> _dataList = new List<SkinData>();
     private Dictionary<int, SkinData> _dicDataById = new Dictionary<int, SkinData>();
 
     private void Awake()
@@ -36,7 +36,7 @@ public class SkinTable : MonoBehaviour
 
         if (cells.Length != SKIN_DATA_COUNT)
         {
-            Debug.Log($"DataManager: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
+            Debug.Log($"SkinData: {index}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {line}");
             return;
         }
         
@@ -61,11 +61,11 @@ public class SkinTable : MonoBehaviour
     {
         if (_dicDataById.ContainsKey(data.Id))
         {
-            Debug.Log($"EnemyTable: Id {data.Id}이 이미 있어 {data.Name} 줄을 건너뜁니다.");
+            Debug.Log($"SkinData: Id {data.Id}이 이미 있어 {data.Name} 줄을 건너뜁니다.");
             return;
         }
 
-        _datas.Add(data);
+        _dataList.Add(data);
         _dicDataById.Add(data.Id, data);
     }
 }

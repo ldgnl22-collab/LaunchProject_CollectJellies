@@ -28,6 +28,14 @@ public class DataManager : MonoBehaviour
     private void Awake()
     {
         SetSingleton();
+        Init();
+    }
+
+    private void Init()
+    {
+        _missionTable = GetComponent<MissionTable>();
+        _skinTable = GetComponent<SkinTable>();
+        _stageTable = GetComponent<StageTable>();
     }
     
     private void SetSingleton()
