@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class StageData
@@ -11,8 +9,6 @@ public class StageData
     public int Id => _id;
     public string Name => _name;
 
-    public StageData(){}
-    
     public StageData(int id, string name)
     {
         _id = id;

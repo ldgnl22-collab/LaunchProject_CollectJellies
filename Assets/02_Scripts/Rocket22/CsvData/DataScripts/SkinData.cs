@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class SkinData
@@ -10,8 +8,6 @@ public class SkinData
     
     public int Id => _id;
     public string Name => _name;
-    
-    public SkinData(){}
     
     public SkinData(int id, string name)
     {

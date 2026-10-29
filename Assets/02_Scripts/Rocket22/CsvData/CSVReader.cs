@@ -14,14 +14,9 @@ public static class CSVReader
         for (int i = 2; i < lines.Length; i++)
         {
             string[] cells = lines[i].Split(',');
-            if (cells.Length == 0)
+            
+            if (cells.Length == 0 || cells.Length != header.Length)
             {
-                continue;
-            }
-
-            if (cells.Length != header.Length)
-            {
-                Debug.Log($"MissionData: {i}번 줄은 칸이 {cells.Length}개라 건너뜁니다: {i}");
                 continue;
             }
             

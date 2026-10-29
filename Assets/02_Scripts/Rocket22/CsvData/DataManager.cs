@@ -1,19 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using NUnit.Framework;
-using Unity.VisualScripting;
 using UnityEngine;
-
-public enum TableType
-{
-    None = -1,
-    Mission,
-    Stage,
-    Skin,
-    
-    Max
-}
 
 public class DataManager : MonoBehaviour
 {
@@ -32,30 +18,18 @@ public class DataManager : MonoBehaviour
         SetSingleton();
         Init();
     }
-
-    public void LoadMission()
+    
+    public T GetData<T>(TableType type, int index, string key)
     {
-        for (int i = 0; i < _missionData.Count; i++)
-        {
-            Debug.Log(_missionData[i]["Detail"]);
-        }
+        Dictionary<string, object> dict = GetTypeList(type)[index];
+
+        return dict.ContainsKey(key) ? (T)dict[key] : default(T);
     }
 
-    // public T GetData<T>(TableType type, int index, string key)
-    // {
-    //     List<Dictionary<string, object>> list = GetTypeList(type);
-    //     
-    //     Dictionary<string, object> dict = list[index];
-    //     
-    //     if (list[index][key].GetType() == typeof(int))
-    //     {
-    //         return 
-    //     }
-    //     else if (list[index][key].GetType() == typeof(float))
-    //     {
-    //         
-    //     }
-    // }
+    public int GetDataCount(TableType type)
+    {
+        return GetTypeList(type).Count;
+    }
 
     private List<Dictionary<string, object>> GetTypeList(TableType type)
     {
