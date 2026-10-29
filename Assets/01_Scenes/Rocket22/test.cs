@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
-    private int count = 1;
+    TableType _tableType;
+
+    private void Start()
+    {
+        _tableType = TableType.Skin;
+    }
     
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (DataManager.Instance.MissionData.TryGetData(count, out MissionData data))
-            {
-                Debug.Log(data);
-                count++;
-            }
+            DataManager.Instance.LoadMission();
         }
     }
 }
