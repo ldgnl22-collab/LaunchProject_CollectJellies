@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    private const string NICK_NAME_KEY = "PlayerNickName";
+    [HideInInspector] public string UserNickName;
+
     // UI가 받을 게이지 현황
     public event Action<float> OnProgressChanged;
     // UI가 받을 로딩 완료
@@ -13,16 +16,35 @@ public class GameManager : Singleton<GameManager>
     // 로딩 할 리스트
     private List<Func<IEnumerator>> _listLoading = new List<Func<IEnumerator>>();
 
+    // 현재 씬 타입
     private SceneType _curSceneType;
+
+    private SaveLoadManager _saveLoadManager;
 
     private void Awake()
     {
         SetSingleton();
+
+        if (Instance == this)
+        {
+            _saveLoadManager = new SaveLoadManager();
+            _saveLoadManager.LoadData();
+        }
     }
 
     private void Start()
     {
         _curSceneType = SceneType.Title;
+
+        // 플레이어 닉네임 있는지 확인.
+        if (PlayerPrefs.GetString(NICK_NAME_KEY) == null)
+        {
+            // 닉네임이 없다면 UI 에게 알려주자.
+        }
+        else // 닉네임이 있다면
+        {
+            UserNickName = PlayerPrefs.GetString(NICK_NAME_KEY);
+        }
     }
 
     /// <summary> 씬 이름 </summary>
@@ -138,6 +160,33 @@ public class GameManager : Singleton<GameManager>
     /// <returns></returns>
     private IEnumerator InitLoadData()
     {
+        LoadContinue();
+
         yield return new WaitForSeconds(0.3f);
+    }
+
+    public void SaveStage(int index, bool isClear, int score, int starCnt)
+    {
+        _saveLoadManager.StageSaveData(index, isClear, score, starCnt);
+    }
+
+    public void SaveSkin(int index, bool isSkin)
+    {
+        _saveLoadManager.SkinSaveData(index, isSkin);
+    }
+
+    public void SaveMission(int index, int dataIndex, bool isClear, int progress)
+    {
+        _saveLoadManager.MissionSaveData(index, dataIndex, isClear, progress);
+    }
+
+    public void SaveForceQuit(int mapIndex, Transform playerTr, int jellies, int score, Transform[] itemTr, int[] itemType)
+    {
+        _saveLoadManager.ForceQuitSaveData(mapIndex, playerTr, jellies, score, itemTr, itemType);
+    }
+
+    public void LoadContinue()
+    {
+        _saveLoadManager.ContinueLoadData();
     }
 }
