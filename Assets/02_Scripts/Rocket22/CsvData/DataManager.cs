@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+public class DataManager : Singleton<DataManager>
 {
-    public static DataManager Instance;
-    
     [SerializeField] private TextAsset _missionTable;
     [SerializeField] private TextAsset _stageTable;
     [SerializeField] private TextAsset _skinTable;
@@ -55,17 +53,5 @@ public class DataManager : MonoBehaviour
         _missionData = CSVReader.ReadCSV(_missionTable);
         _skinData = CSVReader.ReadCSV(_skinTable);
         _stageData = CSVReader.ReadCSV(_stageTable);
-    }
-    
-    private void SetSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 }
