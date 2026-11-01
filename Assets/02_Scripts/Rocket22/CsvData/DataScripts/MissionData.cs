@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class MissionData
@@ -8,10 +9,18 @@ public class MissionData
     private int _targetValue;
     private int _reward;
     
+    private MissionType _missionType;
+    private int _curProgress;
+    private bool _isClear;
+    
     public int Id => _id;
     public string Detail => _detail;
     public int TargetValue => _targetValue;
     public int Reward => _reward;
+    
+    public MissionType MissionType => _missionType;
+    public int CurProgress => _curProgress;
+    public bool IsClear => _isClear;
     
     public MissionData(int id, string detail, int targetValue, int reward)
     {
@@ -19,5 +28,26 @@ public class MissionData
         _detail = detail;
         _targetValue = targetValue;
         _reward = reward;
+    }
+    
+    public void AddProgress(int curProgress)
+    {
+        if (_isClear)
+        {
+            return;
+        }
+        
+        _curProgress += curProgress;
+        if (_curProgress >= _targetValue)
+        {
+            _isClear = true;
+            Debug.Log($"{string.Format(_detail, _targetValue)} Cleared!");
+        }
+    }
+
+    public void ResetProgress()
+    {
+        _curProgress = 0;
+        _isClear = false;
     }
 }
