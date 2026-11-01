@@ -6,6 +6,7 @@ public class JumpActionSample : MonoBehaviour
 {
     [SerializeField] private InputAction _jumpAction;
     private SlimeMotion _motion;
+    private JellyTrail _trail;
 
     private void Awake() => CacheComponent();
     private void OnEnable()
@@ -33,11 +34,13 @@ public class JumpActionSample : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
         _motion.Jump();
+        _trail.RecordJump();
     }
 
     private void CacheComponent()
     {
         _motion =  GetComponent<SlimeMotion>();
+        _trail = GetComponent<JellyTrail>();
     }
     
     
