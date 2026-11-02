@@ -1,0 +1,21 @@
+Face atlas: 4 columns x 5 rows, index left-to-right, top-to-bottom
+0: Smile
+1: Happy
+2: Laugh
+3: Wink
+4: Love
+5: Starry
+6: Shy
+7: Surprised
+8: Sad
+9: Angry
+10: Dizzy
+11: Sleepy
+12: Blink
+13: Cry
+14: Yummy
+15: Smug
+16: Cheer
+17: Cheeky
+18: Delight
+19: Cat

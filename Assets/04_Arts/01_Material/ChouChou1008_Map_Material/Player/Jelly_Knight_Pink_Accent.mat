@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jelly_Knight_Pink_Accent
+  m_Shader: {fileID: 4800000, guid: 3d90fbf888d09ee4cb0c1f51f7e7113b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _PatternTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _EdgeGlow: 0.55
+    - _Flash: 0
+    - _Gloss: 90
+    - _GradientBase: 0.55
+    - _GradientHeight: 0.92
+    - _Gray: 0
+    - _HighlightSize: 0.955
+    - _HighlightStrength: 0.8
+    - _Lean: 0
+    - _PatternScale: 1.5
+    - _SelfGlow: 0
+    - _SpecStrength: 0.9
+    - _Tip: 0
+    - _Wrap: 0.6
+    m_Colors:
+    - _BottomColor: {r: 0.3647059, g: 0.38039216, b: 0.4392157, a: 1}
+    - _HighlightDir: {r: -0.45, g: 0.62, b: 0.64, a: 0}
+    - _PatternColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PatternScroll: {r: 0, g: 0, b: 0, a: 0}
+    - _TopColor: {r: 0.84313726, g: 0.85490197, b: 0.8901961, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
