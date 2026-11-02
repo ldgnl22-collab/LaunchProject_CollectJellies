@@ -8,10 +8,11 @@ public class MissionData
     private string _detail;
     private int _targetValue;
     private int _reward;
-    
+
     private MissionType _missionType;
     private int _curProgress;
     private bool _isClear;
+    private bool _hasRewarded;
     
     public int Id => _id;
     public string Detail => _detail;
@@ -21,6 +22,7 @@ public class MissionData
     public MissionType MissionType => _missionType;
     public int CurProgress => _curProgress;
     public bool IsClear => _isClear;
+    public bool HasRewarded => _hasRewarded;
     
     public MissionData(int id, string detail, int targetValue, int reward)
     {
@@ -28,6 +30,11 @@ public class MissionData
         _detail = detail;
         _targetValue = targetValue;
         _reward = reward;
+    }
+
+    public void SetMissionType(MissionType missionType)
+    {
+        _missionType = missionType;
     }
     
     public void AddProgress(int curProgress)
@@ -40,8 +47,8 @@ public class MissionData
         _curProgress += curProgress;
         if (_curProgress >= _targetValue)
         {
-            _isClear = true;
             Debug.Log($"{string.Format(_detail, _targetValue)} Cleared!");
+            _isClear = true;
         }
     }
 

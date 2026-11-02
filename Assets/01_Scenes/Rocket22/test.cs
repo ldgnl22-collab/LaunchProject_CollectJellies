@@ -12,7 +12,7 @@ public class test : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MissionManager.Instance.UpdateMissionProgress(MissionManager.Instance.GetMissionData(3));
+            MissionManager.Instance.UpdateMissionProgress(MissionType.EnterGame);
         }
     }
 }

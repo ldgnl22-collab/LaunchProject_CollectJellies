@@ -5,32 +5,29 @@ using UnityEngine;
 public class MissionManager : Singleton<MissionManager>
 {
     private TableType _type = TableType.Mission;
+    private List<MissionType> _listMissionType;
     
     // 미션 리스트
     private List<MissionData> _listMissionData = new List<MissionData>();
     
-    // 미션 ID
-    private int _missionID;
-    
-    // 진행 상황
-    private int _curProgress;
-    
-    // 목표 수치
-    private int _targetValue;
-    
-    // 미션 클리어 여부
-    private bool _isClear;
-
     private void Start()
     {
         Init();
     }
 
-    public void UpdateMissionProgress(MissionData missionData)
+    public void UpdateMissionProgress(MissionType missionType)
     {
-        if (!missionData.IsClear)
+        foreach (MissionData missionData in _listMissionData)
         {
-            missionData.AddProgress(1);
+            if (missionData.IsClear || missionType != missionData.MissionType)
+            {
+                continue;
+            }
+            
+            if (missionData.MissionType == missionType)
+            {
+                missionData.AddProgress(1);
+            }
         }
     }
 
@@ -39,6 +36,28 @@ public class MissionManager : Singleton<MissionManager>
         return _listMissionData[index];
     }
 
+    // public void SaveMissionData()
+    // {
+    //     for (int i = 0; i < _listMissionData.Count; i++)
+    //     {
+    //         GameManager.Instance.SaveMission(i,
+    //             _listMissionData[i].Id,
+    //             _listMissionData[i].IsClear,
+    //             _listMissionData[i].CurProgress);
+    //     }
+    // }
+
+    private void InitMissionType()
+    {
+        for (int i = 0; i < DataManager.Instance.GetDataCount(_type); i++)
+        {
+            Enum.TryParse(DataManager.Instance.GetData<string>(_type, i, "MissionType"), out MissionType missionType);
+            _listMissionData[i].SetMissionType(missionType);
+            
+            Debug.Log(_listMissionData[i].MissionType);
+        }
+    }
+    
     private void InitMissionData()
     {
         for (int i = 0; i < DataManager.Instance.GetDataCount(_type); i++)
@@ -64,5 +83,6 @@ public class MissionManager : Singleton<MissionManager>
     private void Init()
     {
         InitMissionData();
+        InitMissionType();
     }
 }

@@ -1,11 +1,16 @@
 public enum MissionType
 {
     None = -1,
-    StageClear,
+    EnterGame,
+    StageClearCount,
     GetItemCount,
-    TotalScore,
+    StageClearScore,
     TotalPlayTime,
-    GetStageJelly,
+    GetStageJellyCount,
+    DontFallClear,
+    GetAllItemInStage,
+    EnterStageUseSkin,
+    DontTrapClear,
     
     Max
 }
