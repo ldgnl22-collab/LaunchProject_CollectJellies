@@ -1,0 +1,12 @@
+newmtl Slime_Body
+Kd 1 0.6 0.78
+
+newmtl Slime_Face
+Kd 1 1 1
+map_Kd ../Textures/SlimeFaces.png
+
+newmtl Slime_Accent
+Kd 1 0.85 0.4
+
+newmtl Slime_Accent2
+Kd 1 0.85 0.4
