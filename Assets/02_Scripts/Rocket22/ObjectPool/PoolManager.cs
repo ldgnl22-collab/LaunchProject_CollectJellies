@@ -8,9 +8,9 @@ public class PoolManager : MonoBehaviour
     
     // 직렬화 된 private 프리팹 변수
     
-    
+    [SerializeField] JellyManager _object;
     // public ObjectPool<객체> _객체명;
-    
+    public ObjectPool<JellyManager> _objectPool{get; private set;}
     
     private void Awake()
     {
@@ -25,6 +25,7 @@ public class PoolManager : MonoBehaviour
     // ObjectPool 초기화
     private void InitPoolCreate()
     {
+        _objectPool = new ObjectPool<JellyManager>(_object, 20, this.transform);
     }
 
     private void SetSingleton()
