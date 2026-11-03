@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
+    private int id;
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -12,7 +14,7 @@ public class test : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MissionManager.Instance.UpdateMissionProgress(MissionType.EnterGame);
+            MissionManager.Instance.UpdateMissionProgress(MissionType.StageClearCount, 1);
         }
     }
 }

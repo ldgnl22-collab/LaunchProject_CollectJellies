@@ -5,56 +5,60 @@ using UnityEngine;
 public class MissionManager : Singleton<MissionManager>
 {
     private TableType _type = TableType.Mission;
-    private List<MissionType> _listMissionType;
     
-    // 미션 리스트
+    // 미션 데이터 및 진행도 데이터 리스트
     private List<MissionData> _listMissionData = new List<MissionData>();
+    private List<MissionProgress> _listMissionProgress =  new List<MissionProgress>();
+
+    public Action OnMissionUpdate;
     
     private void Start()
     {
         Init();
     }
+    
+    // 미션 텍스트 가져가기
+    public string GetMissionDetail(int id)
+    {
+        string detail = string.Format(_listMissionData[id].Detail, _listMissionData[id].TargetValue);
+        return detail;
+    }
 
-    public void UpdateMissionProgress(MissionType missionType)
+    // 미션 데이터 가져가기 (읽기 전용)
+    public IEnumerable<MissionData> GetMissionDataList()
     {
         foreach (MissionData missionData in _listMissionData)
         {
-            if (missionData.IsClear || missionType != missionData.MissionType)
-            {
-                continue;
-            }
-            
-            if (missionData.MissionType == missionType)
-            {
-                missionData.AddProgress(1);
-            }
+            yield return missionData;
         }
     }
 
-    public MissionData GetMissionData(int index)
+    // 미션 진행정보 가져가기 (읽기 전용)
+    public IEnumerable<MissionProgress> GetMissionProgress()
     {
-        return _listMissionData[index];
+        foreach (MissionProgress missionProgress in _listMissionProgress)
+        {
+            yield return missionProgress;
+        }
     }
 
-    // public void SaveMissionData()
-    // {
-    //     for (int i = 0; i < _listMissionData.Count; i++)
-    //     {
-    //         GameManager.Instance.SaveMission(i,
-    //             _listMissionData[i].Id,
-    //             _listMissionData[i].IsClear,
-    //             _listMissionData[i].CurProgress);
-    //     }
-    // }
-
-    private void InitMissionType()
+    // 미션 진행도 추가 ('count'는 1 혹은 누적된 점수 값)
+    public void UpdateMissionProgress(MissionType missionType, int count)
     {
-        for (int i = 0; i < DataManager.Instance.GetDataCount(_type); i++)
+        for (int i = 0; i < _listMissionProgress.Count; i++)
         {
-            Enum.TryParse(DataManager.Instance.GetData<string>(_type, i, "MissionType"), out MissionType missionType);
-            _listMissionData[i].SetMissionType(missionType);
-            
-            Debug.Log(_listMissionData[i].MissionType);
+            if (_listMissionProgress[i].IsClear||
+                missionType != _listMissionData[i].MissionType)
+            {
+                continue;
+            }
+
+            if (missionType == _listMissionData[i].MissionType)
+            {
+                _listMissionProgress[i].AddProgress(_listMissionData[i], count);
+                OnMissionUpdate?.Invoke();
+                return;
+            }
         }
     }
     
@@ -62,8 +66,11 @@ public class MissionManager : Singleton<MissionManager>
     {
         for (int i = 0; i < DataManager.Instance.GetDataCount(_type); i++)
         {
+            Enum.TryParse(DataManager.Instance.GetData<string>(_type, i, "MissionType"), out MissionType missionType);
+            
             MissionData missionData = new (
                 DataManager.Instance.GetData<int>(_type, i, "MissionID"),
+                missionType,
                 DataManager.Instance.GetData<string>(_type, i, "Detail"),
                 DataManager.Instance.GetData<int>(_type, i, "TargetValue"),
                 DataManager.Instance.GetData<int>(_type, i, "Reward"));
@@ -72,17 +79,26 @@ public class MissionManager : Singleton<MissionManager>
         }
     }
 
+    private void InitProgressData()
+    {
+        for (int i = 0; i < DataManager.Instance.GetDataCount(_type); i++)
+        {
+            MissionProgress missionProgress = new MissionProgress(_listMissionData[i].Id);
+            _listMissionProgress.Add(missionProgress);
+        }
+    }
+    
     public void ResetMissionProgress()
     {
-        for (int i = 0; i < _listMissionData.Count; i++)
+        for (int i = 0; i < _listMissionProgress.Count; i++)
         {
-            _listMissionData[i].ResetProgress();
+            _listMissionProgress[i].ResetProgress();
         }
     }
     
     private void Init()
     {
         InitMissionData();
-        InitMissionType();
+        InitProgressData();
     }
 }
