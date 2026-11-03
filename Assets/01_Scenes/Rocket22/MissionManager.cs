@@ -24,7 +24,7 @@ public class MissionManager : Singleton<MissionManager>
         return detail;
     }
 
-    // 미션 데이터 가져가기 (읽기 전용)
+    // 미션 데이터 가져가기
     public IEnumerable<MissionData> GetMissionDataList()
     {
         foreach (MissionData missionData in _listMissionData)
@@ -33,7 +33,7 @@ public class MissionManager : Singleton<MissionManager>
         }
     }
 
-    // 미션 진행정보 가져가기 (읽기 전용)
+    // 미션 진행정보 가져가기
     public IEnumerable<MissionProgress> GetMissionProgress()
     {
         foreach (MissionProgress missionProgress in _listMissionProgress)
