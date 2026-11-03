@@ -24,7 +24,6 @@ public class JellyCollector : MonoBehaviour
         Ray ray = new Ray(transform.position, _rotateAction.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, _checkDistance, _layerMask))
         {
-            Debug.Log("Item감지");
             Destroy(hit.transform.gameObject);
             OnCollected?.Invoke();
             // 감지되면 -> Spawner 
