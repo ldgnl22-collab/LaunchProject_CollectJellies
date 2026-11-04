@@ -69,6 +69,7 @@ public class JellyCollector : MonoBehaviour
         {
             _motion.Die();
             _rigidbody.isKinematic = true;
+            
             // 기억한 높이보다 많이 떨어지면 사망, 그 자리에 멈춤
         }
     }

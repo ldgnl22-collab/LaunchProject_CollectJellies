@@ -77,7 +77,6 @@ public class JumpActionSample : MonoBehaviour
         Vector3 origin = transform.position;
         origin.y = _collider.bounds.min.y + 0.1f;
         // Collider 바닥에서 살짝 위
-        
         return Physics.Raycast(origin, Vector3.down, 0.1f + _groundCheckDistance, _groundLayer);
     }
 
