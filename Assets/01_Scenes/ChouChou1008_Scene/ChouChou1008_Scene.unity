@@ -172,7 +172,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  - component: {fileID: 229977707}
 --- !u!1 &234119573
 GameObject:
   m_ObjectHideFlags: 0
