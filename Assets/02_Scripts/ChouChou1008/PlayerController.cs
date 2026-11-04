@@ -5,15 +5,18 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Move Settings")]
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _jumpHeight = 1f;
+    [SerializeField] private float _jumpForce = 6f;
+    [SerializeField] private LayerMask _groundMask;
 
     [Header("Touch Settings")]
     [SerializeField] private float _swipeDistance = 70f;
     [SerializeField] private float _rotationSpeed = 1000f;
 
-    
+
     private SlimeMotion _motion;
     private Transform _transform;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
 
     private Vector2 _firstPosition;
     private int _fingerId = -1;
@@ -25,12 +28,13 @@ public class PlayerController : MonoBehaviour
     {
         CacheComponent();
         _targetRotation = _transform.rotation;
+        _rigidbody.freezeRotation = true;
+        _motion.useClipHop = false;
     }
 
     private void Start()
     {
         _motion.SetSpeed(_moveSpeed);
-        //_motion.SetJumpHeight(_jumpHeight);
     }
 
     private void Update()
@@ -101,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
                     if (move.magnitude < _swipeDistance)
                     {
-                        _motion.Jump();
+                        Jump();
                     }
                     else if (Mathf.Abs(move.x) > Mathf.Abs(move.y))
                     {
@@ -134,6 +138,24 @@ public class PlayerController : MonoBehaviour
         _isGestureResolved = false;
     }
 
+    private bool IsGrounded()
+    {
+        float checkDistance = _collider.bounds.extents.y + 0.1f;
+
+        return Physics.Raycast(_collider.bounds.center, Vector3.down, checkDistance, _groundMask);
+    }
+
+    private void Jump()
+    {
+        if (IsGrounded() == false)
+        {
+            return;
+        }
+
+        _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+        _motion.Jump();
+    }
+
     private void LeftRotate()
     {
         _targetRotation *= Quaternion.Euler(0f, -90f, 0f);
@@ -163,5 +185,7 @@ public class PlayerController : MonoBehaviour
     {
         _motion = GetComponent<SlimeMotion>();
         _transform = transform;
+        _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
     }
 }

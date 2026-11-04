@@ -32,6 +32,8 @@ namespace GravityCollect
         [Header("Setup")]
         [Tooltip("Use the clip's own hop height. Turn off when game physics already moves the slime up.")]
         public bool useClipHop = true;
+        [Tooltip("점프 높이 배율 (useClipHop이 켜져 있을 때만 적용)")]   // ★
+        [Range(0.5f, 3f)] public float jumpHeight = 1f;                  // ★
         public ParticleSystem splash;
         [Tooltip("Looping ambient effect (embers, bubbles, sparkles...). Stops on death.")]
         public ParticleSystem aura;
@@ -57,7 +59,6 @@ namespace GravityCollect
         Renderer _renderer;
         MaterialPropertyBlock _block;
         Vector3 _baseScale = Vector3.one, _basePos;
-        private float _jumpHight = 2f;
 
         void Awake()
         {
@@ -115,7 +116,7 @@ namespace GravityCollect
             Transform v = _slime.visual;
             if (v == null) return;
             v.localScale = Vector3.Scale(_baseScale, new Vector3(scaleXZ, scaleY, scaleXZ));
-            v.localPosition = _basePos + Vector3.up * (useClipHop ? hop * _baseScale.y *_jumpHight: 0f);
+            v.localPosition = _basePos + Vector3.up * (useClipHop ? hop * _baseScale.y * jumpHeight : 0f);   // ★
             _slime.faceOverride = face >= 0f ? Mathf.RoundToInt(face) : -1;
 
             if (_renderer == null) return;
