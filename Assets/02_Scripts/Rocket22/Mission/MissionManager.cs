@@ -16,7 +16,17 @@ public class MissionManager : Singleton<MissionManager>
     {
         Init();
     }
-    
+
+    private void OnEnable()
+    {
+        BindOnMissionUpdate();
+    }
+
+    private void OnDisable()
+    {
+        UnBindOnMissionUpdate();
+    }
+
     // 미션 텍스트 가져가기
     public string GetMissionDetail(int id)
     {
@@ -100,5 +110,15 @@ public class MissionManager : Singleton<MissionManager>
     {
         InitMissionData();
         InitProgressData();
+    }
+
+    private void BindOnMissionUpdate()
+    {
+        TimeManager.Instance.OnTimeReset += ResetMissionProgress;
+    }
+
+    private void UnBindOnMissionUpdate()
+    {
+        TimeManager.Instance.OnTimeReset -= ResetMissionProgress;
     }
 }
