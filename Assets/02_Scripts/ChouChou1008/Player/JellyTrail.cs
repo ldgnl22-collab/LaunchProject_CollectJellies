@@ -37,10 +37,17 @@ public class JellyTrail : MonoBehaviour
             
             for (int i = 0; i < _followers.Count; i++)
             {
-                _followers[i].Follow();
+                _followers[i].Follow(); //i번째 젤리 위치와 방향.
             }
         }
-
+        public void ResetTrail()  //초기화
+        {
+            _followers.Clear();
+            _points.Clear();
+            _jumpDistances.Clear();
+            _totalDistance = 0f;
+            AddPoint();
+        }
         
         
         
@@ -74,21 +81,17 @@ public class JellyTrail : MonoBehaviour
 
             if (distance <= first.Distance)
             {
-                 float back = first.Distance - distance;
+                 /*float back = first.Distance - distance;
                  Vector3 backDirection = first.Rotation * Vector3.back;
                                 
                  position = first.Position + backDirection * back;
+                 rotation = first.Rotation;*/
+                 
+                 position = first.Position;
                  rotation = first.Rotation;
                  return;
             }
-
-            if (distance >= last.Distance)
-            {
-                position = last.Position;
-                rotation = last.Rotation;
-                return;
-            }
-
+            
             for (int i = _points.Count - 1; i > 0; i--)
             {
                 TrailPoint a = _points[i - 1];
@@ -98,9 +101,13 @@ public class JellyTrail : MonoBehaviour
                 }
 
                 TrailPoint b = _points[i];
+                // 매 프레임 마다 젤리가 서야 할 위치와 방향 계산
                 float t = Mathf.InverseLerp(a.Distance, b.Distance, distance);
+                // a -> b까지 몇% 지점  현 프레임에서 젤리 a에 가까운지 b에 가까운지
                 position = Vector3.Lerp(a.Position, b.Position, t);
+                // 현 프레임의 위치
                 rotation = Quaternion.Slerp(a.Rotation, b.Rotation, t);
+                // 현 프레임의 방향 -> 필요한 이유 지금 젤리가 회전을 Quaternion으로 계산하고 있어서 그럼
                 return;
             }
 
@@ -111,20 +118,24 @@ public class JellyTrail : MonoBehaviour
         
         
         
-        private void Record()
-        {
-            TrailPoint last = _points[_points.Count - 1];
-            float step = Vector3.Distance(_transform.position, last.Position);
-            
-            if (step < _recordStep)
-            {
-                return;
-            }
-
-            _totalDistance += step;
-            AddPoint();
-            RemoveOldData();
-        }
+          private void Record()
+          { 
+              TrailPoint last = _points[_points.Count - 1];
+        
+              Vector3 move = _transform.position - last.Position;
+              move.y = 0f;
+              float step = move.magnitude;
+              // 위아래는 빼고 앞뒤·좌우로 움직인 거리만
+                    
+              if (step < _recordStep)
+              {
+                  return;
+              }
+        
+              _totalDistance += step;
+              AddPoint();
+              RemoveOldData(); 
+          }
 
         private void AddPoint()
         {
@@ -148,6 +159,18 @@ public class JellyTrail : MonoBehaviour
             {
                 _jumpDistances.RemoveAt(0);
             }
+        }
+        public JellyFollower RemoveLastFollower()  //젤리 소멸
+        {
+            if (_followers.Count == 0)  //사망
+            {
+                return null;
+            }
+
+            int lastIndex = _followers.Count - 1;
+            JellyFollower follower = _followers[lastIndex];
+            _followers.RemoveAt(lastIndex);
+            return follower;
         }
 
         private void CacheComponent()
