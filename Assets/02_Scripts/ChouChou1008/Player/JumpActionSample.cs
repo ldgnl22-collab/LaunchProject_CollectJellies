@@ -1,4 +1,5 @@
 using GravityCollect;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,16 +9,18 @@ public class JumpActionSample : MonoBehaviour
     [SerializeField] private InputAction _jumpAction;            // 테스트용 <Keyboard>/space
     
     [Header("Jump Setting")]
-    [SerializeField] private float _jumpHeight = 1.5f;           // 실제로 뜨는 높이 (m)
+    [SerializeField] private float _jumpHeight = 1.7f;           // 실제로 뜨는 높이 (m)
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float _groundCheckDistance = 0.2f;
+    [SerializeField] private float _groundCheckDistance = 0.7f;
     
     private Rigidbody _rigidbody;
     private Collider _collider;
     private SlimeMotion _motion;
     private JellyTrail _trail;
+    private float _jumpTimer;
     
     public bool IsGrounded { get; private set; }
+    public bool IsJumping => _jumpTimer > 0f;
 
     private void Awake() => CacheComponent();
     
@@ -36,6 +39,10 @@ public class JumpActionSample : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded = CheckGround();
+        if (_jumpTimer > 0f)
+        {
+            _jumpTimer -= Time.fixedDeltaTime;
+        }
     }
 
     private void BindInputEvent()
@@ -61,12 +68,13 @@ public class JumpActionSample : MonoBehaviour
             // 죽었거나 공중이면 점프 안 함
         }
 
-        float jumpSpeed = Mathf.Sqrt(2f * -Physics.gravity.y * _jumpHeight);
-        
-        Vector3 velocity = _rigidbody.linearVelocity;
-        velocity.y = jumpSpeed;
-        _rigidbody.linearVelocity = velocity;
+        Vector3 up = transform.up;
+        float jumpSpeed = Mathf.Sqrt(2f * Physics.gravity.magnitude * _jumpHeight);
+
+        _rigidbody.linearVelocity += up * jumpSpeed;
         IsGrounded = false;
+        _jumpTimer = 2f * jumpSpeed / Physics.gravity.magnitude + 0.1f;
+        
 
         _motion.Jump();
         _trail.RecordJump();
@@ -74,10 +82,9 @@ public class JumpActionSample : MonoBehaviour
 
     private bool CheckGround()
     {
-        Vector3 origin = transform.position;
-        origin.y = _collider.bounds.min.y + 0.1f;
-        // Collider 바닥에서 살짝 위
-        return Physics.Raycast(origin, Vector3.down, 0.1f + _groundCheckDistance, _groundLayer);
+        Vector3 origin = _collider.bounds.center;
+        Debug.DrawRay(origin, -transform.up, Color.red);
+        return Physics.Raycast(origin, -transform.up, _groundCheckDistance, _groundLayer);
     }
 
     private void CacheComponent()
