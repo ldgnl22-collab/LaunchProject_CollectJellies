@@ -15,11 +15,11 @@ TagManager:
   - Track
   - Item
   - Trap
-  - Rotate
-  - 
-  - 
-  - 
-  - 
+  - DownRotate
+  - UpRotate
+  - DownExit
+  - UpExit
+  - OtherExit
   - 
   - 
   - 
