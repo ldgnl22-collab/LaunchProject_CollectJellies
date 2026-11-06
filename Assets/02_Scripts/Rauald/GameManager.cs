@@ -26,6 +26,10 @@ public class GameManager : Singleton<GameManager>
     // 다른 스크립트(Mission 등)에서 일일 미션 초기화 여부를 확인할 수 있는 프로퍼티
     public bool IsResetTriggered { get; private set; } = false;
 
+    private DateTime _nextUtcTime;
+    public DateTime NextUtcTime => _nextUtcTime;
+    private IEnumerator _deliyResetCoroutine;
+
     private void Awake()
     {
         SetSingleton();
@@ -35,9 +39,6 @@ public class GameManager : Singleton<GameManager>
             _saveLoadManager = new SaveLoadManager();
             _saveLoadManager.LoadData();
         }
-
-        // 게임 시작 시 일일 미션 초기화 체크
-        CheckDailyReset();
     }
 
     private void Start()
@@ -53,6 +54,11 @@ public class GameManager : Singleton<GameManager>
         {
             UserNickName = PlayerPrefs.GetString(NICK_NAME_KEY);
         }
+
+        // 현재 UTC 시간 체크
+        _deliyResetCoroutine = ResetTime();
+        // 게임 시작 시 일일 미션 초기화 체크
+        CheckDailyReset();
     }
 
     /// <summary> 씬 이름 </summary>
@@ -176,9 +182,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary> UTC 0시 기준 날짜가 바뀌었는지 체크하는 함수 </summary>
     public void CheckDailyReset()
     {
-        // 현재 UTC 시간 체크
-        DateTime currentUtcTime = DateTime.UtcNow;
-
+        DateTime curUtcTime = DateTime.UtcNow;
         // 전에 저장한 시간 체크
         if (PlayerPrefs.HasKey(LastCheckTimeKey))
         {
@@ -189,10 +193,10 @@ public class GameManager : Singleton<GameManager>
             if (DateTime.TryParse(savedTimeString, out DateTime lastCheckTime))
             {
                 // 마지막 저장된 날짜보다 현재 UTC 날짜가 더 크면 (날짜가 바뀌었다면)
-                if (currentUtcTime.Date > lastCheckTime.Date)
+                if (curUtcTime.Date > lastCheckTime.Date)
                 {
                     // 날짜 변경 확인 리셋
-                    DailyReset(currentUtcTime);
+                    DailyReset(curUtcTime);
                 }
                 else
                 {
@@ -204,8 +208,10 @@ public class GameManager : Singleton<GameManager>
         else
         {
             // 첫 접속인 경우 초기화 및 저장
-            DailyReset(currentUtcTime);
+            DailyReset(curUtcTime);
         }
+
+        StartCoroutine(_deliyResetCoroutine);
     }
 
     private void DailyReset(DateTime currentUtcTime)
@@ -229,6 +235,30 @@ public class GameManager : Singleton<GameManager>
     {
         // 다른곳에서 초기화 완료되었다면 최종 false 하기
         IsResetTriggered = false;
+    }
+
+    private void NextDeliy()
+    {
+        DateTime curUtcTime = DateTime.UtcNow;
+        _nextUtcTime = curUtcTime.Date.AddDays(1);
+    }
+
+    private IEnumerator ResetTime()
+    {
+        while (true)
+        {
+            DateTime curUtcTime = DateTime.UtcNow;
+
+            // 현재 UTC 시간이 목표 초기화 시간을 지나쳤는지 체크
+            if (curUtcTime >= _nextUtcTime)
+            {
+                // 초기화 시간이 됬다.
+                NextDeliy(); // 다음날 자정으로 목표 시간 갱신
+            }
+
+            // 1초 대기 후 루프 재개 (매 프레임 체크를 피하여 성능 최적화)
+            yield return new WaitForSeconds(1f);
+        }
     }
 
 
