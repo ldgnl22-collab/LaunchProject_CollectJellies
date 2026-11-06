@@ -21,6 +21,15 @@ public class GameManager : Singleton<GameManager>
 
     private SaveLoadManager _saveLoadManager;
 
+    private const string LastCheckTimeKey = "LastMissionCheckTime";
+
+    // 다른 스크립트(Mission 등)에서 일일 미션 초기화 여부를 확인할 수 있는 프로퍼티
+    public bool IsResetTriggered { get; private set; } = false;
+
+    private DateTime _nextUtcTime;
+    public DateTime NextUtcTime => _nextUtcTime;
+    private IEnumerator _deliyResetCoroutine;
+
     private void Awake()
     {
         SetSingleton();
@@ -45,6 +54,11 @@ public class GameManager : Singleton<GameManager>
         {
             UserNickName = PlayerPrefs.GetString(NICK_NAME_KEY);
         }
+
+        // 현재 UTC 시간 체크
+        _deliyResetCoroutine = ResetTime();
+        // 게임 시작 시 일일 미션 초기화 체크
+        CheckDailyReset();
     }
 
     /// <summary> 씬 이름 </summary>
@@ -165,23 +179,110 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(0.3f);
     }
 
+    /// <summary> UTC 0시 기준 날짜가 바뀌었는지 체크하는 함수 </summary>
+    public void CheckDailyReset()
+    {
+        DateTime curUtcTime = DateTime.UtcNow;
+        // 전에 저장한 시간 체크
+        if (PlayerPrefs.HasKey(LastCheckTimeKey))
+        {
+            // 있다면 전 시간 확인
+            string savedTimeString = PlayerPrefs.GetString(LastCheckTimeKey);
+
+            // 변환
+            if (DateTime.TryParse(savedTimeString, out DateTime lastCheckTime))
+            {
+                // 마지막 저장된 날짜보다 현재 UTC 날짜가 더 크면 (날짜가 바뀌었다면)
+                if (curUtcTime.Date > lastCheckTime.Date)
+                {
+                    // 날짜 변경 확인 리셋
+                    DailyReset(curUtcTime);
+                }
+                else
+                {
+                    // 날짜 변경 안됬으면 유지
+                    IsResetTriggered = false;
+                }
+            }
+        }
+        else
+        {
+            // 첫 접속인 경우 초기화 및 저장
+            DailyReset(curUtcTime);
+        }
+
+        StartCoroutine(_deliyResetCoroutine);
+    }
+
+    private void DailyReset(DateTime currentUtcTime)
+    {
+        // 날짜 바뀐거 알려주기.
+        IsResetTriggered = true;
+
+        // 날짜가 바뀌었으니 현재 바뀐 날짜 시간 기록
+        SaveCurrentTime(currentUtcTime);
+    }
+
+    private void SaveCurrentTime(DateTime timeToSave)
+    {
+        string timeString = timeToSave.ToString("o");
+        PlayerPrefs.SetString(LastCheckTimeKey, timeString);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary> 초기화 처리를 완료한 후 호출하여 트리거를 꺼주는 함수 </summary>
+    public void CompleteResetNotify()
+    {
+        // 다른곳에서 초기화 완료되었다면 최종 false 하기
+        IsResetTriggered = false;
+    }
+
+    private void NextDeliy()
+    {
+        DateTime curUtcTime = DateTime.UtcNow;
+        _nextUtcTime = curUtcTime.Date.AddDays(1);
+    }
+
+    private IEnumerator ResetTime()
+    {
+        while (true)
+        {
+            DateTime curUtcTime = DateTime.UtcNow;
+
+            // 현재 UTC 시간이 목표 초기화 시간을 지나쳤는지 체크
+            if (curUtcTime >= _nextUtcTime)
+            {
+                // 초기화 시간이 됬다.
+                NextDeliy(); // 다음날 자정으로 목표 시간 갱신
+            }
+
+            // 1초 대기 후 루프 재개 (매 프레임 체크를 피하여 성능 최적화)
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+
     public void SaveStage(int index, bool isClear, int score, int starCnt)
     {
+        SaveCurrentTime(DateTime.UtcNow);
         _saveLoadManager.StageSaveData(index, isClear, score, starCnt);
     }
 
     public void SaveSkin(int index, bool isSkin)
     {
+        SaveCurrentTime(DateTime.UtcNow);
         _saveLoadManager.SkinSaveData(index, isSkin);
     }
 
     public void SaveMission(int index, int dataIndex, bool isClear, int progress)
     {
+        SaveCurrentTime(DateTime.UtcNow);
         _saveLoadManager.MissionSaveData(index, dataIndex, isClear, progress);
     }
 
     public void SaveForceQuit(int mapIndex, Transform playerTr, int jellies, int score, Transform[] itemTr, int[] itemType)
     {
+        SaveCurrentTime(DateTime.UtcNow);
         _saveLoadManager.ForceQuitSaveData(mapIndex, playerTr, jellies, score, itemTr, itemType);
     }
 
