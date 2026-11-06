@@ -57,6 +57,14 @@ public class MissionManager : Singleton<MissionManager>
             {
                 _listMissionProgress[i].AddProgress(_listMissionData[i], count);
                 OnMissionUpdate?.Invoke();
+                
+                // 미션 업데이트 마다 저장
+                GameManager.Instance.SaveMission(
+                    i,
+                    _listMissionProgress[i].MissionId,
+                    _listMissionProgress[i].IsClear,
+                    _listMissionProgress[i].CurProgress
+                    );
                 return;
             }
         }
@@ -88,11 +96,21 @@ public class MissionManager : Singleton<MissionManager>
         }
     }
     
+    // 모든 미션 진행도 초기화
     public void ResetMissionProgress()
     {
         for (int i = 0; i < _listMissionProgress.Count; i++)
         {
             _listMissionProgress[i].ResetProgress();
+        }
+    }
+
+    // 모든 미션 진행도 불러오기
+    private void LoadMissionProgress(int id, bool isClear, int progress)
+    {
+        for (int i = 0; i < _listMissionProgress.Count; i++)
+        {
+            _listMissionProgress[id].LoadProgress(isClear, progress);
         }
     }
     

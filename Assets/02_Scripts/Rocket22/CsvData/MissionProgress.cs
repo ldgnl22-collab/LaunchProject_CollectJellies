@@ -6,12 +6,10 @@ public class MissionProgress
     private int _missionId;
     private int _curProgress;
     private bool _isClear;
-    private bool _hasRewarded;
 
     public int MissionId => _missionId;
     public int CurProgress => _curProgress;
     public bool IsClear => _isClear;
-    public bool HasRewarded => _hasRewarded;
     
     public void AddProgress(MissionData missionData, int progress)
     {
@@ -32,10 +30,15 @@ public class MissionProgress
         _missionId = id;
     }
 
+    public void LoadProgress(bool isClear, int progress)
+    {
+        _isClear = isClear;
+        _curProgress = progress;
+    }
+
     public void ResetProgress()
     {
         _curProgress = 0;
         _isClear = false;
-        _hasRewarded = false;
     }
 }
