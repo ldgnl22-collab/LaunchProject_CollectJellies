@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MissionManager : Singleton<MissionManager>
 {
@@ -112,6 +113,38 @@ public class MissionManager : Singleton<MissionManager>
         {
             _listMissionProgress[id].LoadProgress(isClear, progress);
         }
+    }
+    
+    // 미션 n개 랜덤으로 주기
+    public List<MissionData> GetRandomMissionData(int count)
+    {
+        int rand;
+        
+        List<int> randomMissionId = new();
+        List<MissionData> randomMissionData = new();
+        
+        while (randomMissionId.Count < count)
+        {
+            rand = Random.Range(0, _listMissionData.Count);
+
+            if (randomMissionId.Contains(_listMissionData[rand].Id))
+            {
+                // 같은 미션ID가 들어있으면
+                continue;
+            }
+
+            randomMissionId.Add(_listMissionData[rand].Id);
+        }
+        
+        randomMissionId.Sort();
+        
+        for (int i = 0; i < count; i++)
+        {
+            // Id 값을 넣었기 때문에 -1로 인덱스로 변경
+            randomMissionData.Add(_listMissionData[randomMissionId[i]-1]);
+        }
+        
+        return randomMissionData;
     }
     
     private void Init()
