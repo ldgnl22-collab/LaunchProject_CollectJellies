@@ -118,6 +118,15 @@ public class MissionManager : Singleton<MissionManager>
     // 미션 n개 랜덤으로 주기
     public List<MissionData> GetRandomMissionData(int count)
     {
+        if (count >= _listMissionData.Count)
+        {
+            count = _listMissionData.Count;
+        }
+        else if (count < 0)
+        {
+            count = 1;
+        }
+        
         int rand;
         
         List<int> randomMissionId = new();
