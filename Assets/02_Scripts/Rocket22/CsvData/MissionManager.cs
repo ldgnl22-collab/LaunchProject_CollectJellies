@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MissionManager : Singleton<MissionManager>
 {
@@ -57,6 +58,14 @@ public class MissionManager : Singleton<MissionManager>
             {
                 _listMissionProgress[i].AddProgress(_listMissionData[i], count);
                 OnMissionUpdate?.Invoke();
+                
+                // 미션 업데이트 마다 저장
+                GameManager.Instance.SaveMission(
+                    i,
+                    _listMissionProgress[i].MissionId,
+                    _listMissionProgress[i].IsClear,
+                    _listMissionProgress[i].CurProgress
+                    );
                 return;
             }
         }
@@ -88,12 +97,63 @@ public class MissionManager : Singleton<MissionManager>
         }
     }
     
+    // 모든 미션 진행도 초기화
     public void ResetMissionProgress()
     {
         for (int i = 0; i < _listMissionProgress.Count; i++)
         {
             _listMissionProgress[i].ResetProgress();
         }
+    }
+
+    // 모든 미션 진행도 불러오기
+    private void LoadMissionProgress(int id, bool isClear, int progress)
+    {
+        for (int i = 0; i < _listMissionProgress.Count; i++)
+        {
+            _listMissionProgress[id].LoadProgress(isClear, progress);
+        }
+    }
+    
+    // 미션 n개 랜덤으로 주기
+    public List<MissionData> GetRandomMissionData(int count)
+    {
+        if (count >= _listMissionData.Count)
+        {
+            count = _listMissionData.Count;
+        }
+        else if (count < 0)
+        {
+            count = 1;
+        }
+        
+        int rand;
+        
+        List<int> randomMissionId = new();
+        List<MissionData> randomMissionData = new();
+        
+        while (randomMissionId.Count < count)
+        {
+            rand = Random.Range(0, _listMissionData.Count);
+
+            if (randomMissionId.Contains(_listMissionData[rand].Id))
+            {
+                // 같은 미션ID가 들어있으면
+                continue;
+            }
+
+            randomMissionId.Add(_listMissionData[rand].Id);
+        }
+        
+        randomMissionId.Sort();
+        
+        for (int i = 0; i < count; i++)
+        {
+            // Id 값을 넣었기 때문에 -1로 인덱스로 변경
+            randomMissionData.Add(_listMissionData[randomMissionId[i]-1]);
+        }
+        
+        return randomMissionData;
     }
     
     private void Init()
