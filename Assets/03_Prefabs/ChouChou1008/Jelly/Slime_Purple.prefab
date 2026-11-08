@@ -5027,7 +5027,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4680925880237721142}
   - component: {fileID: 3483742778837247893}
-  - component: {fileID: 7682470008693135255}
   - component: {fileID: 900378305398769369}
   - component: {fileID: 7365290539043025990}
   m_Layer: 0
@@ -5077,27 +5076,6 @@ MonoBehaviour:
   jumpHeight: 1.2
   visual: {fileID: 3869954374573101643}
   faceOverride: -1
---- !u!135 &7682470008693135255
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8866354602986230923}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0.38, z: 0}
 --- !u!95 &900378305398769369
 Animator:
   serializedVersion: 7
@@ -5142,6 +5120,7 @@ MonoBehaviour:
   faceFade: 0
   face: -1
   useClipHop: 1
+  jumpHeight: 1
   splash: {fileID: 5611865306459244468}
   aura: {fileID: 0}
   destroyAfterDeath: 0

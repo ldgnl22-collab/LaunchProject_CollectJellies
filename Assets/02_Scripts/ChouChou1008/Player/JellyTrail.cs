@@ -118,24 +118,23 @@ public class JellyTrail : MonoBehaviour
         
         
         
-          private void Record()
-          { 
-              TrailPoint last = _points[_points.Count - 1];
-        
-              Vector3 move = _transform.position - last.Position;
-              move.y = 0f;
-              float step = move.magnitude;
-              // 위아래는 빼고 앞뒤·좌우로 움직인 거리만
-                    
-              if (step < _recordStep)
-              {
-                  return;
-              }
-        
-              _totalDistance += step;
-              AddPoint();
-              RemoveOldData(); 
-          }
+         private void Record()
+         {
+             TrailPoint last = _points[_points.Count - 1];
+         
+             Vector3 move = _transform.position - last.Position;
+             float step = Vector3.ProjectOnPlane(move, _transform.up).magnitude;
+             // 현재 면의 위아래 이동(점프)은 빼고, 면을 따라 이동한 거리만 계산
+         
+             if (step < _recordStep)
+             {
+                 return;
+             }
+         
+             _totalDistance += step;
+             AddPoint();
+             RemoveOldData();
+         }
 
         private void AddPoint()
         {
