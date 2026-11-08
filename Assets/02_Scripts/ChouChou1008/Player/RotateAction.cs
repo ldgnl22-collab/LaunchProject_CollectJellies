@@ -90,6 +90,10 @@ public class RotateAction : MonoBehaviour
     {
         _targetRotation *= Quaternion.Euler(0f, 90f, 0f);
     }
+    public void SetTargetRotation(Quaternion rotation)
+    {
+        _targetRotation = rotation;
+    }
     
     private void CacheComponent()
     {
