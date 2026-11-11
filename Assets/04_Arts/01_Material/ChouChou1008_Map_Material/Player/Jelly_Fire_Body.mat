@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jelly_Fire_Body
-  m_Shader: {fileID: 4800000, guid: 3d90fbf888d09ee4cb0c1f51f7e7113b, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8574a66c860f07e44be6cc7e2965c97f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
