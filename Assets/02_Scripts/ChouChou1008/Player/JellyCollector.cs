@@ -9,7 +9,7 @@ public class JellyCollector : MonoBehaviour
     [SerializeField] private float _checkDistance = 1.2f;
 
     [Header("Fall Check")]
-    [SerializeField] private float _fallDelay = 0.1f;   // 땅이 없을 때 사망까지 기다리는 시간
+    [SerializeField] private float _fallDelay = 0.5f;   // 땅이 없을 때 사망까지 기다리는 시간
 
     private SlimeMotion _motion;
     private JumpActionSample _jump;

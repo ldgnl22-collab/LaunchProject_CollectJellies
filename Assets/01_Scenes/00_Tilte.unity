@@ -889,6 +889,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &925110925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 617624093404388475, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+  m_PrefabInstance: {fileID: 1759324699}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &925110926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925110925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a500ab1b224a2724a91e48c923df7172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JellyManager
+--- !u!114 &925110927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925110925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3550ed38e33d449b0b0531103e7901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JellyFollower
 --- !u!1 &1121421057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1373,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1759324699
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 617624093404388475, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_Name
+      value: Jelly_Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.25363
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.80669
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635098078998431032, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 617624093404388475, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 925110927}
+    - targetCorrespondingSourceObject: {fileID: 617624093404388475, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 925110926}
+  m_SourcePrefab: {fileID: 100100000, guid: 416dad973d1932c4f9897e4610ba5152, type: 3}
 --- !u!1 &1809188979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,7 +1540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6afdca898cb295d4286e2276d751a2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
-  _object: {fileID: 0}
+  _object: {fileID: 925110926}
 --- !u!4 &1995028051
 Transform:
   m_ObjectHideFlags: 0
@@ -1525,3 +1617,4 @@ SceneRoots:
   - {fileID: 791677718}
   - {fileID: 189828780}
   - {fileID: 1995028051}
+  - {fileID: 1759324699}
