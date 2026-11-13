@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MissionManager : Singleton<MissionManager>
+public class MissionManager : MonoBehaviour
 {
+    public static MissionManager Instance { get; private set; }
+    
     private TableType _type = TableType.Mission;
     
     // 미션 데이터 및 진행도 데이터 리스트
     private List<MissionData> _listMissionData = new List<MissionData>();
     private List<MissionProgress> _listMissionProgress =  new List<MissionProgress>();
-
+    private List<MissionData> _listDailyMissionData = new List<MissionData>();
+    
     public Action OnMissionUpdate;
+    
+    private void Awake() => SetSingleton();
     
     private void Start()
     {
@@ -21,14 +26,23 @@ public class MissionManager : Singleton<MissionManager>
     // 미션 텍스트 가져가기
     public string GetMissionDetail(int id)
     {
-        string detail = string.Format(_listMissionData[id].Detail, _listMissionData[id].TargetValue);
+        string detail = string.Format(_listMissionData[id-1].Detail, _listMissionData[id-1].TargetValue);
         return detail;
     }
 
-    // 미션 데이터 가져가기
+    // 모든 미션 데이터 가져가기
     public IEnumerable<MissionData> GetMissionDataList()
     {
         foreach (MissionData missionData in _listMissionData)
+        {
+            yield return missionData;
+        }
+    }
+
+    // 랜덤 일일 미션 데이터 가져가기
+    public IEnumerable<MissionData> GetDailyMissionList()
+    {
+        foreach (MissionData missionData in _listDailyMissionData)
         {
             yield return missionData;
         }
@@ -104,6 +118,9 @@ public class MissionManager : Singleton<MissionManager>
         {
             _listMissionProgress[i].ResetProgress();
         }
+        
+        // 랜덤 일일 미션 3개 초기화
+        SetDailyMissionData(3);
     }
 
     // 모든 미션 진행도 불러오기
@@ -114,9 +131,23 @@ public class MissionManager : Singleton<MissionManager>
             _listMissionProgress[id].LoadProgress(isClear, progress);
         }
     }
+
+    // 모든 미션 저장 (시작시 1회)
+    public void SaveMissionProgress()
+    {
+        for (int i = 0; i < _listMissionProgress.Count; i++)
+        {
+            GameManager.Instance.SaveMission(
+                i,
+                _listMissionProgress[i].MissionId,
+                _listMissionProgress[i].IsClear,
+                _listMissionProgress[i].CurProgress
+            );
+        }
+    }
     
     // 미션 n개 랜덤으로 주기
-    public List<MissionData> GetRandomMissionData(int count)
+    public void SetDailyMissionData(int count)
     {
         if (count >= _listMissionData.Count)
         {
@@ -130,7 +161,6 @@ public class MissionManager : Singleton<MissionManager>
         int rand;
         
         List<int> randomMissionId = new();
-        List<MissionData> randomMissionData = new();
         
         while (randomMissionId.Count < count)
         {
@@ -150,15 +180,25 @@ public class MissionManager : Singleton<MissionManager>
         for (int i = 0; i < count; i++)
         {
             // Id 값을 넣었기 때문에 -1로 인덱스로 변경
-            randomMissionData.Add(_listMissionData[randomMissionId[i]-1]);
+            _listDailyMissionData.Add(_listMissionData[randomMissionId[i]-1]);
         }
-        
-        return randomMissionData;
     }
     
     private void Init()
     {
         InitMissionData();
         InitProgressData();
+    }
+    
+    private void SetSingleton()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
