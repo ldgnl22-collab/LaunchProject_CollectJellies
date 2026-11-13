@@ -256,7 +256,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _checkDistance: 1.2
-  _dieFallHeight: 3
+  _fallDelay: 1.1
 --- !u!114 &4389779850160998648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +270,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   _moveSpeed: 2
+  _gravity: 9.8
+  _UpRotation:
+    serializedVersion: 2
+    m_Bits: 0
+  _UpExit:
+    serializedVersion: 2
+    m_Bits: 0
+  _DownRotation:
+    serializedVersion: 2
+    m_Bits: 0
+  _DownExit:
+    serializedVersion: 2
+    m_Bits: 0
+  _OtherExit:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &370808676865761867
 MonoBehaviour:
   m_ObjectHideFlags: 0

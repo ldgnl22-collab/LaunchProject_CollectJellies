@@ -197,6 +197,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     // 날짜 변경 확인 리셋
                     DailyReset(curUtcTime);
+                    MissionManager.Instance.ResetMissionProgress();
                 }
                 else
                 {
@@ -209,6 +210,8 @@ public class GameManager : Singleton<GameManager>
         {
             // 첫 접속인 경우 초기화 및 저장
             DailyReset(curUtcTime);
+            MissionManager.Instance.ResetMissionProgress();
+            MissionManager.Instance.SaveMissionProgress();
         }
 
         StartCoroutine(_deliyResetCoroutine);

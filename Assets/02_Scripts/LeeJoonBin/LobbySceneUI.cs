@@ -198,11 +198,11 @@ public class LobbySceneUI : MonoBehaviour
         }
 
         int index = 0;
-        foreach (MissionData data in MissionManager.Instance.GetMissionDataList())
+        foreach (MissionData data in MissionManager.Instance.GetDailyMissionList())
         {
             if (_arrMissionDetailTxt != null && index < _arrMissionDetailTxt.Length && _arrMissionDetailTxt[index] != null)
             {
-                _arrMissionDetailTxt[index].text = MissionManager.Instance.GetMissionDetail(index);
+                _arrMissionDetailTxt[index].text = MissionManager.Instance.GetMissionDetail(data.Id);
             }
 
             if (_arrMissionRewardGoldTxt != null && index < _arrMissionRewardGoldTxt.Length && _arrMissionRewardGoldTxt[index] != null)
