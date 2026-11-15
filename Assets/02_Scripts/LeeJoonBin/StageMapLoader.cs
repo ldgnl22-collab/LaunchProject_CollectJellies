@@ -15,9 +15,11 @@ public class StageMapLoader : MonoBehaviour
 
     private GameObject _spawnedMapObj;
     private GameObject _spawnedPlayerObj;
+    private Transform _endPointTransform;
 
     public GameObject SpawnedMapObj => _spawnedMapObj;
     public GameObject SpawnedPlayerObj => _spawnedPlayerObj;
+    public Transform EndPointTransform => _endPointTransform;
 
     private void Start()
     {
@@ -55,7 +57,27 @@ public class StageMapLoader : MonoBehaviour
         {
             _spawnedMapObj = Instantiate(mapPrefab, Vector3.zero, Quaternion.identity);
             _spawnedMapObj.name = $"Map_Stage_{clampedIndex + 1}_{mapPrefab.name}";
+            _endPointTransform = FindPointTransform(_spawnedMapObj.transform, "End_Point", "EndPoint");
         }
+    }
+
+    private Transform FindPointTransform(Transform root, string exactName, string altName)
+    {
+        Transform direct = root.Find(exactName);
+        if (direct != null)
+        {
+            return direct;
+        }
+
+        foreach (Transform child in root.GetComponentsInChildren<Transform>())
+        {
+            if (child.name.Equals(exactName) || child.name.Contains(altName))
+            {
+                return child;
+            }
+        }
+
+        return null;
     }
 
     private void SpawnPlayer()
@@ -81,23 +103,7 @@ public class StageMapLoader : MonoBehaviour
 
         if (_spawnedMapObj != null)
         {
-            Transform startPointTr = null;
-
-            // 1. 직접 자식에서 Start_Point 탐색
-            startPointTr = _spawnedMapObj.transform.Find("Start_Point");
-
-            // 2. 깊은 자식에서 Start_Point 또는 Portal 탐색
-            if (startPointTr == null)
-            {
-                foreach (Transform child in _spawnedMapObj.GetComponentsInChildren<Transform>())
-                {
-                    if (child.name.Equals("Start_Point") || child.name.Contains("StartPoint"))
-                    {
-                        startPointTr = child;
-                        break;
-                    }
-                }
-            }
+            Transform startPointTr = FindPointTransform(_spawnedMapObj.transform, "Start_Point", "StartPoint");
 
             if (startPointTr != null)
             {

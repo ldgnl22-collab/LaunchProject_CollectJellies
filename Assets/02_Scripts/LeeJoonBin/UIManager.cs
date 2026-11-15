@@ -26,6 +26,14 @@ public class UIManager : Singleton<UIManager>
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            // PopupManager/WindowManager가 같은 오브젝트에 있어 gameObject를 파괴하면 씬 UI 참조가 사라짐
+            enabled = false;
+            Destroy(this);
+            return;
+        }
+
         SetSingleton();
         LoadLocalUISettings();
     }
