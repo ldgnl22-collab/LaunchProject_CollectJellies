@@ -93,8 +93,10 @@ public class GameSceneUI : MonoBehaviour
 
     [Header("Player Control Settings")]
     [SerializeField] private float _rotationSpeed = 1000f;
+    [SerializeField] private float _goalReachDistance = 1.2f;
 
     private Transform _playerTransform;
+    private Transform _endPointTransform;
     private JumpActionSample _jumpActionSample;
     private RotateAction _rotateAction;
     private JellyCollector _jellyCollector;
@@ -153,6 +155,22 @@ public class GameSceneUI : MonoBehaviour
             return;
         }
 
+        // 골 지점 도달 감지
+        if (!_isGameEnded && _playerTransform != null)
+        {
+            if (_endPointTransform == null)
+            {
+                TryBindEndPoint();
+            }
+
+            if (_endPointTransform != null &&
+                Vector3.Distance(_playerTransform.position, _endPointTransform.position) <= _goalReachDistance)
+            {
+                TriggerClearResult(3);
+                return;
+            }
+        }
+
         // 조작법 1, 2 사용 시 UI 버튼 기반 회전 보간 처리
         if (!_isGameEnded && _playerTransform != null && _eCurControlType != EControlType.Swipe)
         {
@@ -198,6 +216,28 @@ public class GameSceneUI : MonoBehaviour
         }
 
         ApplyControlTypeUI(_eCurControlType);
+        TryBindEndPoint();
+    }
+
+    private void TryBindEndPoint()
+    {
+        if (_endPointTransform != null)
+        {
+            return;
+        }
+
+        StageMapLoader mapLoader = Object.FindFirstObjectByType<StageMapLoader>();
+        if (mapLoader != null && mapLoader.EndPointTransform != null)
+        {
+            _endPointTransform = mapLoader.EndPointTransform;
+            return;
+        }
+
+        GameObject endObj = GameObject.Find("End_Point") ?? GameObject.Find("EndPoint");
+        if (endObj != null)
+        {
+            _endPointTransform = endObj.transform;
+        }
     }
 
     private void UnbindPlayerEvents()

@@ -6,7 +6,7 @@ public class SaveLoadManager
     private string filePath => Path.Combine(Application.persistentDataPath, "gameData.json");
     private SaveLoadData curData;
     public SaveLoadData CurData => curData;
-
+    
     /// <summary> 스테이지 저장 </summary>
     /// <param name="index"> 현재 스테이지 번호 </param>
     /// <param name="isClear"> 클리어 여부 </param>
