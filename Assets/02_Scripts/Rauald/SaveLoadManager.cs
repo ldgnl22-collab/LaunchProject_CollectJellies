@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -8,27 +6,7 @@ public class SaveLoadManager
     private string filePath => Path.Combine(Application.persistentDataPath, "gameData.json");
     private SaveLoadData curData;
     public SaveLoadData CurData => curData;
-
-    private bool EnsureDataCapacity<T>(List<T> list, int index, Func<int, T> createItem)
-    {
-        if (index < 0)
-        {
-            return false;
-        }
-
-        if (curData == null)
-        {
-            LoadData();
-        }
-
-        while (list.Count <= index)
-        {
-            list.Add(createItem(list.Count));
-        }
-
-        return true;
-    }
-
+    
     /// <summary> 스테이지 저장 </summary>
     /// <param name="index"> 현재 스테이지 번호 </param>
     /// <param name="isClear"> 클리어 여부 </param>
@@ -36,12 +14,6 @@ public class SaveLoadManager
     /// <param name="starCnt"> 별 개수 </param>
     public void StageSaveData(int index, bool isClear, int score, int starCnt)
     {
-        if (curData == null) LoadData();
-        if (!EnsureDataCapacity(curData.ListStageSaveData, index, i => new StageSaveData { StageIndex = i }))
-        {
-            return;
-        }
-
         // 현재 스테이지를 클리어 한 기록이 없고, 클리어 했다면
         if (!curData.ListStageSaveData[index].IsClear && isClear)
         {
@@ -71,12 +43,6 @@ public class SaveLoadManager
     /// <param name="isSkin"> 스킨 여부 </param>
     public void SkinSaveData(int index, bool isSkin)
     {
-        if (curData == null) LoadData();
-        if (!EnsureDataCapacity(curData.ListSkinSaveData, index, i => new SkinSaveData { SkinIndex = i }))
-        {
-            return;
-        }
-
         // 현재 스킨이 없고, 스킨을 획득했다면
         if (!curData.ListSkinSaveData[index].IsSkin && isSkin)
         {
@@ -93,12 +59,6 @@ public class SaveLoadManager
     /// <param name="progress"></param>
     public void MissionSaveData(int index, int dataIndex, bool isClear, int progress)
     {
-        if (curData == null) LoadData();
-        if (!EnsureDataCapacity(curData.ListMissionSaveData, index, i => new MissionSaveData { MissionIndex = i }))
-        {
-            return;
-        }
-
         // 현재 미션 csv 번호 저장
         curData.ListMissionSaveData[index].MissionDataIndex = dataIndex;
 
